@@ -16,30 +16,32 @@ function getParks(searchParks, maxResults) {
         stateCode: searchParks,
         limit: maxResults,
         start: 0,
+        fields: 'addresses',
         api_key: apiKey
     };
 
     let queryString = formatQueryParams(params)
     const url = searchURL + '?' + queryString;
-    console.log(url);
+    //console.log(url);
 
     fetch(url)
       .then(response => response.json())
       .then(responseJson => displayResults(responseJson))
-      .catch(error => console.log('Something went wrong. Try again later.'));
+      .catch(error => alert('Something went wrong. Try again later.'));
 }
 
 function displayResults(responseJson) {
     console.log(responseJson);
-    console.log(responseJson.data.length);
+    //console.log(responseJson.data.length);
     let parks = $('<ul id="results-list"></ul>');
 
     for (let i=0; i <= responseJson.data.length - 1; i++) {
-      parks.append(`<li><h3>${responseJson.data[i].fullName}</h3><p>${responseJson.data[i].description}</p><a href="${responseJson.data[i].url}">${responseJson.data[i].url}</a></li>`);
-      console.log(responseJson.data[i].name);
+      parks.append(`<li><h3>${responseJson.data[i].fullName}</h3><p>${responseJson.data[i].description}</p>
+      <a href="${responseJson.data[i].url}">${responseJson.data[i].url}</a></li>`);
+      //console.log(responseJson.data[i].name);
     }
     //display the results section
-    console.log(parks);
+    //console.log(parks);
     $('#results-list').replaceWith(parks);
    
     $('#results').removeClass('hidden');
@@ -52,7 +54,7 @@ function watchForm() {
     event.preventDefault();
     searchParks = $('#js-search-parks').val();
     maxResults = $('#js-max-results').val();
-    console.log(searchParks);
+    //console.log(searchParks);
     getParks(searchParks, maxResults);
   });
 }
